@@ -3,7 +3,8 @@ title: 'Introduction to Regression: Part 1'
 author: "Jeremy Albright - Methods"
 date: "Wednesday, January 06, 2016"
 output: 
-  ioslides_presentation
+  ioslides_presentation:
+    css: css/style.css
 
 ---
 
