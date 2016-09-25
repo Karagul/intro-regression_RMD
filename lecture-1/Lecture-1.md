@@ -1,25 +1,9 @@
----
-title: 'Introduction to Regression: Part 1'
-author: "Jeremy Albright"
-date: "Methods"
-output: 
-  ioslides_presentation:
-    css: ../css/style.css
-    keep_md: yes
-
----
-
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, cache = TRUE, fig.align='center')
-
-library(dplyr)
-library(ggplot2)
-library(tibble)
+# Introduction to Regression: Part 1
+Jeremy Albright  
+Methods  
 
 
 
-```
 
 ## Why learn regression?
 20th Century Motivation - An End in Itself
@@ -59,37 +43,7 @@ First, it tells us how much we can expect a dependent variable to change each ti
 
 ## Why learn regression?
 
-```{r scatter1}
-
-set.seed(3)
-cigs<-round(runif(100,-.4,20.4))
-lbs<-rnorm(100,125+5*cigs+rnorm(100,0,50),25)
-ill<-.75*cigs + .05*lbs + rnorm(100,0,1)
-df<-data.frame(cigs,lbs,ill)
-
-lm_eqn = function(m) {
-
-  l <- list(a = format(coef(m)[1], digits = 3),
-      b = format(abs(coef(m)[2]), digits = 3),
-      r2 = format(summary(m)$r.squared, digits = 3))
-
-  if (coef(m)[2] >= 0)  {
-    eq <- substitute(italic(y) == a + b %.% italic(x)*","~~italic(R)^2~"="~r2,l)
-  } else {
-    eq <- substitute(italic(y) == a - b %.% italic(x)*","~~italic(R)^2~"="~r2,l)    
-  }
-
-  as.character(as.expression(eq))
-  }
-
-
-ggplot(df, aes(cigs,ill)) + geom_point() +
-  geom_smooth(method="lm", color = "firebrick") + 
-  geom_text(aes(x = 17, y = 5, label = lm_eqn(lm(ill ~ cigs, df))), parse = TRUE) +
-  labs(x="Number of Cigarettes",y="Number of Illnesses")
-
-
-```
+<img src="Lecture-1_files/figure-html/scatter1-1.png" style="display: block; margin: auto;" />
 
 
 ## Why learn regression?
@@ -102,19 +56,11 @@ Regression also allows us to sort through competing theories.  This is done by _
 
 ## Competing Explanations
 
-```{r scatter2}
-ggplot(df, aes(cigs,ill)) + geom_point() +
-  geom_smooth(method="lm") + 
-  labs(x="Number of Cigarettes",y="Number of Illnesses")
-```
+<img src="Lecture-1_files/figure-html/scatter2-1.png" style="display: block; margin: auto;" />
 
 ## Competing Explanations
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(df, aes(cigs,lbs)) + geom_point() +
-  geom_smooth(method="lm") + 
-  labs(x="Weight",y="Number of Illnesses")
-```
+<img src="Lecture-1_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" />
 
 ## Why learn regression?
 
@@ -157,27 +103,7 @@ The _y-intercept_ is the point where the line crosses the y-axis on a graph.
 
 ## Interpreting Regression
 
-```{r regplot}
-
-X<-seq(-10,10,by=.01)
-Y<- 10+5*X
-y2<- 10 - (5*X)
-
-temp_data <- data_frame(X = X, Y = Y, y2 = y2)
-
-ggplot(temp_data, aes(x = X, y =Y)) + geom_line(color = "firebrick") + geom_line(aes(x = X, y = y2), color = "dodgerblue3") +
-  geom_hline(yintercept = 0, color = "gray", linetype = "dashed") +
-  geom_vline(xintercept = 0, color = "gray", linetype = "dashed") +
-  geom_text(aes(x = 2.5, y = 10, label = "Intercept = 10") ) +
-  geom_text(aes(x = 7, y = 38, label = "b = 10"), color = "firebrick" ) +
-  geom_text(aes(x = -5.5, y = 45, label = "b = -10"), color = "dodgerblue3" ) +
-  geom_point(aes(x = 0, y = 10)) +
-  geom_segment(aes(x = -8, y = 50, xend = -8, yend = 35), linetype = "dashed", color = "dodgerblue3") +
-  geom_segment(aes(x = -8, y = 35, xend = -5, yend = 35), linetype = "dashed", color = "dodgerblue3") +
-  geom_segment(aes(x = 5, y = 35, xend = 5, yend = 50), linetype = "dashed", color = "firebrick") +
-  geom_segment(aes(x = 5, y = 50, xend = 8, yend = 50), linetype = "dashed", color = "firebrick") 
-
-```
+<img src="Lecture-1_files/figure-html/regplot-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -203,31 +129,23 @@ $$
 
 Regression finds the line that is the _best fit_ (defined more precisely later) to the data.
 
-```{r scatter3}
-ggplot(df, aes(cigs,ill)) + geom_point() +
-  geom_smooth(method="lm") + 
-  labs(x="Number of Cigarettes",y="Number of Illnesses")
-```
+<img src="Lecture-1_files/figure-html/scatter3-1.png" style="display: block; margin: auto;" />
 
 ## Interpreting Regression
-```{r getlm}
-mod <- lm(ill ~ cigs, df)
-b0 <- round(coef(mod)[1],3)
-b1 <- round(coef(mod)[2],3)
-```
+
 
 On the basis of this line, we can make predictions.  The model for illness by cigarettes was:
 $$
-Y = `r b0` + `r b1`X
+Y = 5.862 + 1.063X
 $$
 Let's say that somebody smokes 5 cigarettes in a day.  What would I predict their illness rate to be?  
 $$
 \begin{eqnarray*}
-\widehat{Y} &=& `r b0` + `r b1`(5) \\
-&=&  `r b0+b1*5`
+\widehat{Y} &=& 5.862 + 1.063(5) \\
+&=&  11.177
 \end{eqnarray*}
 $$
-In other words, I would expect that the person has been sick `r b0+b1*5` times in the last five years.
+In other words, I would expect that the person has been sick 11.177 times in the last five years.
 
 Notice the carrot over the _Y_, which we pronounce as "Y-hat". This means that _Y_ is our prediction on the basis of the data. 
 
@@ -297,16 +215,7 @@ Three types of central tendency
 
 We can describe a symmetric distribution on the basis of its mean and variability.  Both are values we can calculate.
 
-```{r varplot}
-x<-seq(50,150,by=1)
-y1<-dnorm(x,100,15)
-y2<-dnorm(x,100,7.5)
-df2<-data.frame(rep(x,2),c(y1,y2),c(rep("High Variance",length(x)),rep("Low Variance",length(x))))
-names(df2)<-c("X","Frequency","Variance")
-ggplot(data=df2,aes(x=X,y=Frequency,group=Variance,colour=Variance)) + 
-  geom_line() + scale_y_continuous(breaks=NULL)
-
-```
+<img src="Lecture-1_files/figure-html/varplot-1.png" style="display: block; margin: auto;" />
 
 
 ## Basic Concepts: Central Tendency
@@ -456,25 +365,7 @@ The nice thing about the standard deviation is that, no matter what scale we use
 
 IQs are known to have an average of $\mu = 100$ in the population with $\sigma^2 = 15$.
 
-```{r iqplot}
-x<-25:175
-y<-dnorm(25:175,100,15)
-
-plot(x,y,type="l",xlab="IQ",main="Distribution of Intelligence",yaxt="n",xlim=c(25,175),ylab="",
-     xaxt="n")
-abline(h=0,lwd=".25")
-lines(rep(100,2),c(-.0005,.0005))
-text(100,.002,expression(mu * "=100"), cex=.75)
-lines(c(85,115),c(rep(.016,2)))
-lines(c(85,85),c(0,.016),lty=2,col="gray")
-lines(c(115,115),c(0,.016),lty=2,col="gray")
-text(100,.01725,"1 SD",cex=.75)
-lines(c(70,130),c(.0037,.0037))
-text(100,.005,"2 SDs",cex=.75)
-lines(c(70,70),c(0,.0037),lty=2,col="gray")
-lines(c(130,130),c(0,.0037),lty=2,col="gray")
-axis(1,at=c(50,70,85,100,115,130,150))
-```
+<img src="Lecture-1_files/figure-html/iqplot-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -539,56 +430,19 @@ In each of these, my standing relative to the rest of the class differs.
 
 But if I presented this as a z score, I have a clear idea.  Why?
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-mu1<-80
-sigma1<-5
-mu2<-80
-sigma2<-8
-mu3<-70
-sigma3<-8
-```
 
-## $\mu = `r mu1`$, $\sigma = `r sigma1`$
 
-```{r test1}
-x<-seq(40,110,by=.01)
-y<-dnorm(x,mu1,sigma1)
-plot(x,y,type="l",xlab="Scores",main="Test Score Distribution",yaxt="n",xlim=c(min(x),100),ylab="",
-     xaxt="n")
-abline(h=0,lwd=".25")
-lines(rep(85,2),c(0,dnorm(85,mu1,sigma1)))
-lines(rep(mu1,2),c(0,dnorm(mu1,mu1,sigma1)), lty=2, col="gray")
-polygon(c(85,seq(85,110,.1),110),c(0,dnorm(seq(85,110,.1),mu1,sigma1),0),col=6)
-axis(1,at=c(mu1,85))
-```
+## $\mu = 80$, $\sigma = 5$
 
-## $\mu = `r mu2`$, $\sigma = `r sigma2`$
+<img src="Lecture-1_files/figure-html/test1-1.png" style="display: block; margin: auto;" />
 
-```{r test2}
-x<-seq(40,110,by=.01)
-y<-dnorm(x,mu2,sigma2)
-plot(x,y,type="l",xlab="Scores",main="Test Score Distribution",yaxt="n",xlim=c(min(x),100),ylab="",
-     xaxt="n")
-abline(h=0,lwd=".25")
-lines(rep(85,2),c(0,dnorm(85,mu2,sigma2)))
-lines(rep(mu2,2),c(0,dnorm(mu2,mu2,sigma2)), lty=2, col="gray")
-polygon(c(85,seq(85,110,.1),110),c(0,dnorm(seq(85,110,.1),mu2,sigma2),0),col=6)
-axis(1,at=c(mu2,85))
-```
+## $\mu = 80$, $\sigma = 8$
 
-## $\mu = `r mu3`$, $\sigma = `r sigma3`$
+<img src="Lecture-1_files/figure-html/test2-1.png" style="display: block; margin: auto;" />
 
-```{r test3}
-x<-seq(40,110,by=.01)
-y<-dnorm(x,mu3,sigma3)
-plot(x,y,type="l",xlab="Scores",main="Test Score Distribution",yaxt="n",xlim=c(min(x),100),ylab="",
-     xaxt="n")
-abline(h=0,lwd=".25")
-lines(rep(85,2),c(0,dnorm(85,mu3,sigma3)))
-lines(rep(mu3,2),c(0,dnorm(mu3,mu3,sigma3)), lty=2, col="gray")
-polygon(c(85,seq(85,110,.1),110),c(0,dnorm(seq(85,110,.1),mu3,sigma3),0),col=6)
-axis(1,at=c(mu3,85))
-```
+## $\mu = 70$, $\sigma = 8$
+
+<img src="Lecture-1_files/figure-html/test3-1.png" style="display: block; margin: auto;" />
 
 
 ## Basic Concepts: Z Scores
@@ -603,39 +457,39 @@ $$
 
 Reconsider our three scenarios:
 
-- $\mu = `r mu1`$, $\sigma^2 = `r sigma1`$
+- $\mu = 80$, $\sigma^2 = 5$
 
 $$
-Z = \frac{x_i - \mu}{\sigma} = \frac{85 - `r mu1`}{`r sigma1`} = `r (85 - mu1)/sigma1`
+Z = \frac{x_i - \mu}{\sigma} = \frac{85 - 80}{5} = 1
 $$
 
 
 
 ## Basic Concepts: Z Scores
 
-- $\mu = `r mu2`$, $\sigma^2 = `r sigma2`$
+- $\mu = 80$, $\sigma^2 = 8$
 
 $$
-Z = \frac{x_i - \mu}{\sigma} = \frac{85 - `r mu2`}{`r sigma2`} = `r (85 - mu2)/sigma2`
+Z = \frac{x_i - \mu}{\sigma} = \frac{85 - 80}{8} = 0.625
 $$
 
-- $\mu = `r mu3`$, $\sigma^2 = `r sigma3`$
+- $\mu = 70$, $\sigma^2 = 8$
 
 $$
-Z = \frac{x_i - \mu}{\sigma} = \frac{85 - `r mu3`}{`r sigma3`} = `r (85 - mu3)/sigma3`
+Z = \frac{x_i - \mu}{\sigma} = \frac{85 - 70}{8} = 1.875
 $$
 
 The interpretation is in terms of standard deviations.
 
 ## Basic Concepts: Z Scores
 
-- $\mu = `r mu1`$, $\sigma = `r sigma1`$: My grade is `r (85 - mu1)/sigma1` standard deviations from the mean.
-- $\mu = `r mu2`$, $\sigma = `r sigma2`$: My grade is `r (85 - mu2)/sigma2` standard deviations from the mean.
-- $\mu = `r mu3`$, $\sigma = `r sigma3`$: My grade is `r (85 - mu3)/sigma3` standard deviations from the mean.
+- $\mu = 80$, $\sigma = 5$: My grade is 1 standard deviations from the mean.
+- $\mu = 80$, $\sigma = 8$: My grade is 0.625 standard deviations from the mean.
+- $\mu = 70$, $\sigma = 8$: My grade is 1.875 standard deviations from the mean.
 
-If the mean were 80, I did better compared to the average when $\sigma =$ `r sigma2`.
+If the mean were 80, I did better compared to the average when $\sigma =$ 8.
 
-I did even better if $\mu =$ `r mu3`.
+I did even better if $\mu =$ 70.
 
 
 ## Basic Concepts: The Standard Normal Distribution
@@ -709,50 +563,17 @@ Steps to determining what proportion of observations are above or below a given 
 Take our test example:
 
 
-## $\mu = `r mu1`$, $\sigma = `r sigma1`$
+## $\mu = 80$, $\sigma = 5$
 
-```{r test4}
-x<-seq(40,110,by=.01)
-y<-dnorm(x,mu1,sigma1)
-plot(x,y,type="l",xlab="Scores",main="Test Score Distribution",yaxt="n",xlim=c(min(x),100),ylab="",
-     xaxt="n")
-abline(h=0,lwd=".25")
-lines(rep(85,2),c(0,dnorm(85,mu1,sigma1)))
-lines(rep(mu1,2),c(0,dnorm(mu1,mu1,sigma1)), lty=2, col="gray")
-polygon(c(85,seq(85,110,.1),110),c(0,dnorm(seq(85,110,.1),mu1,sigma1),0),col=6)
-axis(1,at=c(mu1,85))
-legend("topleft",paste("P(x > 85) =",1-round(pnorm(85,mu1,sigma1),4), sep=""),cex=.8)
-```
+<img src="Lecture-1_files/figure-html/test4-1.png" style="display: block; margin: auto;" />
 
-## $\mu = `r mu2`$, $\sigma = `r sigma2`$
+## $\mu = 80$, $\sigma = 8$
 
-```{r test5}
-x<-seq(40,110,by=.01)
-y<-dnorm(x,mu2,sigma2)
-plot(x,y,type="l",xlab="Scores",main="Test Score Distribution",yaxt="n",xlim=c(min(x),100),ylab="",
-     xaxt="n")
-abline(h=0,lwd=".25")
-lines(rep(85,2),c(0,dnorm(85,mu2,sigma2)))
-lines(rep(mu2,2),c(0,dnorm(mu2,mu2,sigma2)), lty=2, col="gray")
-polygon(c(85,seq(85,110,.1),110),c(0,dnorm(seq(85,110,.1),mu2,sigma2),0),col=6)
-axis(1,at=c(mu2,85))
-legend("topleft",paste("P(x > 85) =",1-round(pnorm(85,mu2,sigma2),4), sep=""),cex=.8)
-```
+<img src="Lecture-1_files/figure-html/test5-1.png" style="display: block; margin: auto;" />
 
-## $\mu = `r mu3`$, $\sigma = `r sigma3`$
+## $\mu = 70$, $\sigma = 8$
 
-```{r test6}
-x<-seq(40,110,by=.01)
-y<-dnorm(x,mu3,sigma3)
-plot(x,y,type="l",xlab="Scores",main="Test Score Distribution",yaxt="n",xlim=c(min(x),100),ylab="",
-     xaxt="n")
-abline(h=0,lwd=".25")
-lines(rep(85,2),c(0,dnorm(85,mu3,sigma3)))
-lines(rep(mu3,2),c(0,dnorm(mu3,mu3,sigma3)), lty=2, col="gray")
-polygon(c(85,seq(85,110,.1),110),c(0,dnorm(seq(85,110,.1),mu3,sigma3),0),col=6)
-axis(1,at=c(mu3,85))
-legend("topleft",paste("P(x > 85) =",1-round(pnorm(85,mu3,sigma3),4), sep=""),cex=.8,)
-```
+<img src="Lecture-1_files/figure-html/test6-1.png" style="display: block; margin: auto;" />
 
 
 ## Review of Concepts
@@ -802,40 +623,16 @@ $$
 
 ## A Running Example
 
-```{r voteshare, warning = FALSE, message = FALSE}
-dat<-read.csv("../Data/mtmv_data_10_12.csv")
-
-# Mutations for later analysis
-dat <- dat %>% 
-  mutate(tempDV = ifelse(is.na(vote_share)==0,vote_share,50.5)) %>%
-  mutate(tempIV = rnorm(nrow(dat),scale(tempDV),1)) %>%
-  mutate(shape = factor(rank(tempIV,ties.method="random")%/%(ceiling(length(tempIV)/3)+1), levels=c(0:2),labels=c("Square","Circle","Triangle")))
-
-ggplot(data = dat, aes(x = vote_share)) + geom_histogram(fill = "firebrick", color = "black") +
-  labs(x = "Republican Vote Share in District", y = "Frequency")
-
-```
+<img src="Lecture-1_files/figure-html/voteshare-1.png" style="display: block; margin: auto;" />
 
 ## A Running Example
 
-```{r hist, warning = FALSE, message = FALSE}
-ggplot(data = dat, aes(x = mshare)) + geom_histogram(fill = "dodgerblue3", color = "black") +
-  labs(x = "Republican Tweet Share in District", y = "Frequency")
-
-```
+<img src="Lecture-1_files/figure-html/hist-1.png" style="display: block; margin: auto;" />
 
 
 ## A Running Example
 
-```{r reg, message = FALSE, warning = FALSE}
-
-
-ggplot(dat, aes(x = mshare, y = vote_share)) + geom_point() + geom_smooth(method = lm, color = "firebrick")  + 
-  geom_text(aes(x = 80, y = 10, label = lm_eqn(lm(vote_share ~ mshare, dat))), parse = TRUE) +
-  labs(x = "Republican Tweet Share in District", y = "Republican Vote Share in District")
-
-
-```
+<img src="Lecture-1_files/figure-html/reg-1.png" style="display: block; margin: auto;" />
 
 
 ## A Running Example
