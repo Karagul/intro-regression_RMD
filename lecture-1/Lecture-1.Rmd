@@ -52,6 +52,7 @@ When we cannot randomize levels of the _independent variable_, we can be less ce
 Regression does two things for us:
 
 First, it tells us how much we can expect a dependent variable to change each time we change the independent variable.
+
 - People who smoke more tend to have more illnesses
 - Regression will tell us how many illnesses to expect given a number of cigarattes smoked.
 
@@ -97,7 +98,7 @@ Regression also allows us to sort through competing theories.  This is done by _
 
 - I think smoking causes chronic illness.  But what if the real problem is obesity, and it just so happens that smokers are more likely to be obese?
 - What if the real issue is lack of access to affordable health care, and smokers tend to be poorer?
-- How do I partial the _independent_ effect of each possible variable?  What is their _total_ effect?
+- How do I partition the _independent_ effect of each possible variable?  What is their _total_ effect?
 
 ## Competing Explanations
 
@@ -124,7 +125,7 @@ _To control_ means to vary one independent variable while holding the other inde
 - Does smoking impact chronic illness for people earning median incomes?
 - Does smoking impact chronic illness for people weighing 250 pounds?
 
-When we control for an alternative explanation, we are getting the _independent_ effect (also called the _partial effect_ of a variable.  This is the effect net of any overlapping effect from another variable.
+When we control for an alternative explanation, we are getting the _independent_ effect (also called the _partial effect_) of a variable.  This is the effect net of any overlapping effect from another variable.
 
 
 ## Why learn regression?
@@ -147,7 +148,7 @@ When we control for an alternative explanation, we are getting the _independent_
 The only math you need to know to interpret regression is a high school freshman-level course in algebra.
 Recall learning about the slope of a line.  The slope represents the steepness of the line.
 
-- Rise over run: Take b steps up each time you take one step over.
+- Rise over run: Take `b` steps up each time you take one step over.
 - For a slope of 5: Take five steps up each time you take one step over.
 - For a slope of $-5$: Take five steps _down_ each time you take one step over.
 
@@ -200,7 +201,7 @@ $$
 
 ## Interpreting Regression
 
-Regression finds the line that is the \emph{best fit} (defined more precisely later) to the data.
+Regression finds the line that is the _best fit_ (defined more precisely later) to the data.
 
 ```{r scatter3}
 ggplot(df, aes(cigs,ill)) + geom_point() +
@@ -357,7 +358,7 @@ Statistics as a field is devoted to understanding the behavior of a statistic ac
 
 ## Basic Concepts: Variance
 
-The variance is denoted as $\sigma^2$ (read ``sigma squared'').  The reason for squaring $\sigma$ will become apparent shortly.  The formula is:
+The variance is denoted as $\sigma^2$ (read "sigma squared").  The reason for squaring $\sigma$ will become apparent shortly.  The formula is:
 
 $$
 \sigma^2 = \frac{\sum_{i=1}^{N}\left(x_i - \mu\right)^2}{n}
@@ -421,7 +422,7 @@ $$
 s^2 = \frac{76.6}{9} = 8.5
 $$
 
-The larger the variance, the more ``spread out'' the observations around the mean.
+The larger the variance, the more "spread out" the observations around the mean.
 
 
 ## Basic Concepts: Variance
@@ -496,7 +497,7 @@ Our estimate of the sample variance was 8.5.  This means the standard deviation 
 
 The last bit introductory material is _z scores_.
 
-Z scores represent a _re-scaling_ of something we've measures.
+Z scores represent a _re-scaling_ of something we've measured.
 
 Familiar examples of rescalings:
 
@@ -765,7 +766,7 @@ legend("topleft",paste("P(x > 85) =",1-round(pnorm(85,mu3,sigma3),4), sep=""),ce
 
 ## A Running Example
 
-DiGrazia, J. McKelvey, K. Bollen, J. Rojas, F., 2013,``Replication data for: More Tweets, More Votes: Social Media as a Quantitative Indicator of Political Behavior'', 
+DiGrazia, J. McKelvey, K. Bollen, J. Rojas, F., 2013, "Replication data for: More Tweets, More Votes: Social Media as a Quantitative Indicator of Political Behavior", 
 http://dx.doi.org/10.7910/DVN/23103 Harvard Dataverse Network [Distributor] V3 [Version] 
 
 - Can US House candidates' electoral success be predicted by the frequency of tweets that mention their name?
