@@ -363,7 +363,7 @@ The nice thing about the standard deviation is that, no matter what scale we use
 
 ## Basic Concepts: Variance
 
-IQs are known to have an average of $\mu = 100$ in the population with $\sigma^2 = 15$.
+IQs are known to have an average of $\mu = 100$ in the population with $\sigma = 15$.
 
 <img src="Lecture-1_files/figure-html/iqplot-1.png" style="display: block; margin: auto;" />
 
@@ -374,14 +374,6 @@ IQs are known to have an average of $\mu = 100$ in the population with $\sigma^2
 "Is there no place in this world for a man with a 105 IQ?" - Homer J. Simpson
 
 ![Homer](Lecture-1_files/figure-html/homer.jpeg)
-
-## Basic Concepts: Variance
-
-Our estimate of the sample variance was 8.5.  This means the standard deviation is $s = \sqrt{8.5} = 2.915$.  If we went out and collected more data, we would expect:
-
-- 68% of observations will fall between $\bar{x} \pm s$, or between 5.585 and 11.415.
-- 95% of observations fall between $\bar{x} \pm 2s$, or between 2.67 and 14.33.
-
 
 
 ## Basic Concepts: Z Scores
@@ -424,7 +416,7 @@ Consider:
 
 - Class mean was 80, standard deviation of 5
 - Class mean was 80, standard deviation of 8
-- Class mean was 70, standard deviation of 5
+- Class mean was 70, standard deviation of 8
 
 In each of these, my standing relative to the rest of the class differs.
 
@@ -457,7 +449,7 @@ $$
 
 Reconsider our three scenarios:
 
-- $\mu = 80$, $\sigma^2 = 5$
+- $\mu = 80$, $\sigma = 5$
 
 $$
 Z = \frac{x_i - \mu}{\sigma} = \frac{85 - 80}{5} = 1
@@ -467,13 +459,13 @@ $$
 
 ## Basic Concepts: Z Scores
 
-- $\mu = 80$, $\sigma^2 = 8$
+- $\mu = 80$, $\sigma = 8$
 
 $$
 Z = \frac{x_i - \mu}{\sigma} = \frac{85 - 80}{8} = 0.625
 $$
 
-- $\mu = 70$, $\sigma^2 = 8$
+- $\mu = 70$, $\sigma = 8$
 
 $$
 Z = \frac{x_i - \mu}{\sigma} = \frac{85 - 70}{8} = 1.875
@@ -584,6 +576,16 @@ Take our test example:
 - The Standard Normal Distribution is a normal distribution with a mean of zero and standard deviation of 1
 - We can use tables for the standard normal distribution to assign probabilities to scores
 
+## Review
+
+- Regression has historically been useful for analyzing observational data
+- Important formulas to know:
+    - $\mu = \frac{1}{n}\sum_{i=1}^n x_i$
+    - $\sigma^2 = \frac{\sum_{i=1}^{n}\left(x_i - \mu\right)^2}{n}$
+    - $\sigma = \sqrt{\frac{\sum_{i=1}^{n}\left(x_i - \mu\right)^2}{n}}$
+    - $s = \sqrt{\frac{\sum_{i=1}^{n}\left(x_i - M\right)^2}{n-1}}$
+    - $z = \frac{x - \mu}{\sigma}$
+
 
 ## A Running Example
 
@@ -593,6 +595,7 @@ http://dx.doi.org/10.7910/DVN/23103 Harvard Dataverse Network [Distributor] V3 [
 - Can US House candidates' electoral success be predicted by the frequency of tweets that mention their name?
 - Does this effect remain when controlling for the incumbent party, Presidential vote shares in the previous election, and the demographics of the district?
 
+- Disclaimer: Data used here pedagogically and in no way reflect the work and conclusions in the original paper.
 
 
 ## A Running Example
@@ -637,7 +640,7 @@ $$
 
 ## A Running Example
 
-What is our best guess of the Republican vote share in a district where the Republic tweet share is 50?
+What is our best guess of the Republican vote share in a district where the Republican tweet share is 50?
 $$
 \begin{eqnarray}
 \hat{Y} &=& 37.04 + .27(\mbox{Tweet Share}) \\
@@ -655,17 +658,6 @@ names(dat)
 1. Was candidate an incumbent? (yes/no)
 2. How partisan was district? (interval scale)
 3. What is the shape of the state? (fake categorical variable - square, circle, or triangle)
-
-## Review
-
-- Regression has historically been useful for analyzing observational data
-- Important formulas to know:
-    - $\mu = \frac{1}{n}\sum_{i=1}^n x_i$
-    - $\sigma^2 = \frac{\sum_{i=1}^{n}\left(x_i - \mu\right)^2}{n}$
-    - $\sigma = \sqrt{\frac{\sum_{i=1}^{n}\left(x_i - \mu\right)^2}{n}}$
-    - $s = \sqrt{\frac{\sum_{i=1}^{n}\left(x_i - M\right)^2}{n-1}}$
-    - $z = \frac{x - \mu}{\sigma}$
-
 
 
 
