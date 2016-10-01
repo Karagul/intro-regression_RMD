@@ -479,7 +479,7 @@ The interpretation is in terms of standard deviations.
 - $\mu = 80$, $\sigma = 8$: My grade is 0.625 standard deviations from the mean.
 - $\mu = 70$, $\sigma = 8$: My grade is 1.875 standard deviations from the mean.
 
-If the mean were 80, I did better compared to the average when $\sigma =$ 8.
+If the mean were 80, I did better compared to the average when $\sigma =$ 5.
 
 I did even better if $\mu =$ 70.
 
@@ -653,7 +653,6 @@ $$
 ## A Running Example
 
 Other variables that may be associated with district vote share:
-names(dat)
 
 1. Was candidate an incumbent? (yes/no)
 2. How partisan was district? (interval scale)
